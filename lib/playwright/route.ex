@@ -9,12 +9,10 @@ defmodule Playwright.Route do
 
   @property :request
 
-  # ---
-
-  # @spec abort(t(), binary()) :: :ok
-  # def abort(route, error_code \\ nil)
-
-  # ---
+  @spec abort(t(), binary()) :: :ok
+  def abort(%Route{session: session} = route, error_code \\ nil) do
+    Channel.post(session, {:guid, route.guid}, :abort, %{error_ode: error_code})
+  end
 
   @spec continue(t(), options()) :: :ok
   def continue(route, options \\ %{})
